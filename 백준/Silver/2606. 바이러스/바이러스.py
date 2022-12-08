@@ -46,8 +46,8 @@ def DFS(v):
 
 
 
-# 시작 노드(vertex)인 v 부터 DFS 탐색 
+#1 부터 DFS 탐색
 DFS(1)
 
-# 결과 출력
+# 결과 출력 / 1을 제외한 값이기 때문에 -1 
 print(len(DFS_Result)-1)
