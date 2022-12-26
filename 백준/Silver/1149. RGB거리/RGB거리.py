@@ -36,6 +36,19 @@ for i in range(1,n+1):
 # 인덱스 3은 결정 
 # 인덱스 4도 결정 
 #
+# 위를 정리하면 
+# k 번째가 R 일 때를 살펴보자  : S(k,R)
+# S(k,R) = 현재 R + min(S(k-1,G),S(k-1,B))
+
+# k 번째가 G 일 때를 살펴보자  : S(k,G)
+# S(k,G) = 현재 G + min(S(k-1,B),S(k-1,R))
+
+# k 번째가 B 일 때를 살펴보자  : S(k,B)
+# S(k,B) = 현재 B + min(S(k-1,G),S(k-1,R))
+
+# 다음 과 같은 점화식으로 정의 된다.
+
+
 for i in range(1,n+1):
     rgb[i][0] += min(rgb[i-1][1],rgb[i-1][2])
     rgb[i][1] += min(rgb[i-1][0],rgb[i-1][2])
