@@ -7,7 +7,7 @@ spot = list(map(int,input().split()))
 
 spot.sort()
 
-# 한 개는 반듯이 붙여야해
+# 한 개는 반드시 붙여야해
 count = 1
 limt = (spot[0] - 0.5) + l
 
