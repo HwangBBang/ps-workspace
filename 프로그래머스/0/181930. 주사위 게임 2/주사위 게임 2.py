@@ -1,11 +1,12 @@
+
 def solution(a, b, c):
-    if a == b and b == c:
-        answer = case1(a, b, c)
-    elif a != b and b != c and a != c:
-        answer = case3(a, b, c)
-    else:
-        answer = case2(a, b, c)
-    return answer
+    flagNum = len(list({a,b,c}))
+    if flagNum == 1:
+        return case1(a, b, c)
+    elif flagNum == 2:
+        return case2(a, b, c)
+    elif flagNum == 3:
+        return case3(a, b, c)
 
 
 def case1(a, b, c):
