@@ -1,13 +1,15 @@
 class Solution {
     public String solution(String my_string, String letter) {
-        String[] str = my_string.split("");
         
-        StringBuilder sb = new StringBuilder();
+        return my_string.replaceAll(letter,"");
+//         String[] str = my_string.split("");
         
-        for (String s : str){
-            if(!s.equals(letter)) sb.append(s);
-        }
+//         StringBuilder sb = new StringBuilder();
         
-        return sb.toString();
+//         for (String s : str){
+//             if(!s.equals(letter)) sb.append(s);
+//         }
+        
+//         return sb.toString();
     }
 }
