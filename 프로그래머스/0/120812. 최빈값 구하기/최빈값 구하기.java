@@ -5,19 +5,30 @@ import java.util.*;
 class Solution {
     public int solution(int[] array) {
     
-        Map<Integer, Long> frequencyMap 
-            = Arrays.stream(array).boxed().collect(Collectors.groupingBy(n -> n, Collectors.counting()));
+                Map<Integer, Integer> frequencyMap = new HashMap<>();
+        int answer = -1;
+        for (int num : array){
+            frequencyMap.put(num, frequencyMap.getOrDefault(num,0)+1);
+        }
+        int max = Collections.max(frequencyMap.values());
         
-        long maxFrequency = frequencyMap.values().stream().max(Long::compare).orElse(0L);
         
-        // 3. 최빈값이 여러 개인지 확인
-        List<Integer> modes = frequencyMap.entrySet().stream()
-                .filter(entry -> entry.getValue() == maxFrequency)
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
+        int cnt = 0;
+        for (Map.Entry<Integer, Integer> entry : frequencyMap.entrySet()) {
+            if (entry.getValue() == max) {
+                cnt += 1;
+                answer = entry.getKey();
+            }
+        }
+        
+        boolean isValid = (cnt == 1);
 
-        // 4. 최빈값이 여러 개면 -1을 반환, 그렇지 않으면 최빈값 반환
-        return modes.size() > 1 ? -1 : modes.get(0);
+        if (isValid) {
+            return answer;
+        }
+        return -1;
+            
+
 
         
     }
