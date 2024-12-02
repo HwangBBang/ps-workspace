@@ -1,10 +1,14 @@
 import java.util.*;
 class Solution {
     public String[] solution(String myStr) {
-        String[] answer = myStr.split("[a|b|c]");
+        String[] answer =  myStr.split("[abc]+");
+
         if (answer.length == 0) return new String[]{"EMPTY"};
 
-        String[] array = Arrays.stream(answer).filter(each -> !each.equals("")).toArray(String[]::new);
-        return array;
+        if (answer[0].equals("")) {
+            return Arrays.copyOfRange(answer, 1, answer.length);
+        }
+
+        return answer;
     }
 }
