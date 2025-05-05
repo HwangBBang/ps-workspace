@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class Mai {
+public class Main {
     static int n;
     static int answer = 999;
     static int[] grid;
