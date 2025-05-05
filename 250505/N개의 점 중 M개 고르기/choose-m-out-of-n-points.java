@@ -9,7 +9,9 @@ import java.util.StringTokenizer;
 public class Main {
     static int n,m, answer;
     static List<Position> queue = new ArrayList<>();
+    static List<Position> answerQueue = new ArrayList<>();
     static List<Position> positions = new ArrayList<>();
+    static Pair answerPair;
 
     static class Position {
         int x;
@@ -18,6 +20,16 @@ public class Main {
         public Position(int x, int y) {
             this.x = x;
             this.y = y;
+        }
+    }
+
+    static class Pair {
+        Position p1;
+        Position p2;
+
+        public Pair(Position p1, Position p2) {
+            this.p1 = p1;
+            this.p2 = p2;
         }
     }
 
@@ -37,24 +49,46 @@ public class Main {
              positions.add(new Position(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
         }
 
-        answer = 210000000;
+        answer = Integer.MAX_VALUE;
 
         choice(1);
-        System.out.println(answer);
+        System.out.println(getDist(answerPair.p1, answerPair.p2));
 
     }
 
     static void choice(int num) {
-        if (num > 2) {
-            answer = Math.min(answer, getDist(queue.get(0), queue.get(1)));
+        if (num > m) {
+//            queue 에 담겨 있는 pos 중 가장 먼거 찾아내기
+            findFar(1);
             return;
         }
 
         for (Position position : positions) {
-            if (isValid(position)) {
+            if (isQueueValid(position)) {
                 queue.add(position);
                 choice(num + 1);
                 queue.remove(queue.size() - 1);
+            }
+        }
+    }
+
+    static void findFar(int num) {
+        if (num > 2) {
+    //  queue 에 담겨 있는 pos 중 가장 먼거 찾아내기
+            int dist = getDist(answerQueue.get(0), answerQueue.get(1));
+            if (dist < answer) {
+                answer = dist;
+                answerPair = new Pair(answerQueue.get(0), answerQueue.get(1));
+            }
+
+            return;
+        }
+
+        for (Position position : queue) {
+            if (isAnswerQueueValid(position)) {
+                answerQueue.add(position);
+                findFar(num + 1);
+                answerQueue.remove(answerQueue.size() - 1);
             }
         }
     }
@@ -63,8 +97,17 @@ public class Main {
         return (int) Math.pow(Math.sqrt((double) (p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y)), 2.0);
     }
 
-    static boolean isValid(Position position) {
-        for (Position exist : queue) {
+    static boolean isQueueValid(Position position) {
+            for (Position exist : queue) {
+                if (exist.equals(position)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+    static boolean isAnswerQueueValid(Position position) {
+        for (Position exist : answerQueue) {
             if (exist.equals(position)) {
                 return false;
             }
@@ -72,3 +115,16 @@ public class Main {
         return true;
     }
 }
+
+
+
+/*
+
+3 3
+97 42
+37 60
+37 62
+
+=> 4000
+ */
+
