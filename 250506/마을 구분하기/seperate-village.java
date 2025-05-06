@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class DFS3 {
+public class Main {
     static int n;
     static int[][] grid;
     static boolean[][] visited;
