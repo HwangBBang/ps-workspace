@@ -58,7 +58,7 @@ public class Main {
             }
         }
 
-        Answer answer = new Answer(0, 0);
+        Answer answer = new Answer(0, -1);
 
         for (int k = 1; k <= kMax; k++) {
 
