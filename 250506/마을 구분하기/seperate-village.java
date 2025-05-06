@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class Main {
+public class DFS3 {
     static int n;
     static int[][] grid;
     static boolean[][] visited;
@@ -79,16 +79,17 @@ public class Main {
         int len = groups.size();
         System.out.println(len);
 
+        List<Integer> ans = new ArrayList<>();
 //        groups 의 group 의 갯수들(int)을 추출하여 answer로 만들어 정렬해서 출력
+        
+        for (List<Household> households : groups) {
+            ans.add(households.size());
+        }
 
-        int[] array = groups.stream().mapToInt(List::size).toArray();
+        Collections.sort(ans);
 
-        Arrays.sort(array);
-
-        for (int i : array) {
-            System.out.println(i);
+        for (Integer an : ans) {
+            System.out.println(an);
         }
     }
 }
-
-//1 2
