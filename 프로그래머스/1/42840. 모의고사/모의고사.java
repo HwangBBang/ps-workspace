@@ -31,16 +31,11 @@ class Solution {
         }
         
         for (int i = 0; i < result.length; i ++){
-            if (maxValue == result[i])   temp.add(i+1);        
+            if (maxValue == result[i])   temp.add(i);        
         }
 
-        int[] answerList = new int[temp.size()];
-        
-        for (int i = 0; i<temp.size(); i++){
-            answerList[i] = temp.get(i);
-        }
-        
-        return answerList;
+        return temp.stream().mapToInt(i -> i+1).toArray();
+
     }
 }
 
