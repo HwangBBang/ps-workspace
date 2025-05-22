@@ -23,21 +23,21 @@ def sol(currentC,currentR,row,column,grid):
         
         
         grid[nR][nC]="X"
-        # print(grid)
+        print(grid)
         sol(nC,nR,row,column,grid)
 
 
 
 
 N,M=map(int,input().split())
-grid=[[0] for _ in range(N)]
+grid=[[0] for _ in range(M)]
 # print(grid)
-for i in range(M):
+for i in range(N):
     grid[i]=list(map(int,input().split()))
     # print(grid)
 currentR=0
 currentC=0
-sol(currentC,currentR,N,M,grid)
+sol(currentC,currentR,M,N,grid)
 if grid[M-1][N-1]==1:
     print(0)
 else:
