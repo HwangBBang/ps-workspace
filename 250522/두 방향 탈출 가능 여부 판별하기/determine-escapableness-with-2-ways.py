@@ -23,7 +23,7 @@ def sol(currentC,currentR,row,column,grid):
         
         
         grid[nR][nC]="X"
-        print(grid)
+        # print(grid)
         sol(nC,nR,row,column,grid)
 
 
