@@ -1,9 +1,13 @@
 def rangeOut(nextRow,nextColumn):
+    global n
+    global m
     return nextRow < 0 or nextRow >= n or nextColumn < 0 or nextColumn >= m # true 
     
 
 
 def sol(r,c):    
+    global n
+    global m
     global result
     if r == n-1 and c == m-1:
         result = 1
