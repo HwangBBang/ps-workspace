@@ -1,5 +1,5 @@
-def rangeOut(row,column,N,M):
-    if row < 0 or row >= N or column < 0 or column >= M:
+def rangeOut(nextRow,nextColumn,N,M):
+    if nextRow < 0 or nextRow >= N or nextColumn < 0 or nextColumn >= M:
         return True
     return False
 def end(cC,cR,r,c):
@@ -37,8 +37,8 @@ for i in range(N):
     # print(grid)
 currentR=0
 currentC=0
-sol(currentC,currentR,M,N,grid)
-if grid[M-1][N-1]==1:
+sol(currentC,currentR,N,M,grid)
+if grid[N-1][M-1]==1:
     print(0)
 else:
     print(1)
