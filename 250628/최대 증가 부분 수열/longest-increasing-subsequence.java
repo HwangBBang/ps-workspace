@@ -10,7 +10,7 @@ public class Main {
 
         for (int i = 1; i <= n; i++) arr[i] = sc.nextInt();
         dp = new int[n + 1];
-        dp[0] = 1;
+        dp[0] = 0;
         dp[1] = 1;
         // Please write your code here.
         // 0 1 2 3 4 5 6
