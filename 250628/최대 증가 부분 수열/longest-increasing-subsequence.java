@@ -40,26 +40,24 @@ public class Main {
             dp[6] > dp[5] 이기에 => O
 
         */
-        
+
         // b-up
 
-        for(int i = 2; i <= n; i ++){
-            int k = selectIdx(i);
-            dp[i] = dp[k] + 1;
+        for(int i = 1; i <= n; i ++){
+            dp[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if (arr[j] < arr[i]) {
+                    dp[i] = Math.max(dp[i], dp[j]+1);
+                }
+            }
         }
-        
+
         int result = -1;
         for (int lens : dp){
             if (result < lens) result = lens;
         }
         System.out.println(result);
-        
+
     }
-    
-    static int selectIdx(int cur){
-        for (int i = cur-1; i >=0; i --){
-            if (arr[cur] > arr[i]) return i;
-        }
-        return 0;
-    }
+
 }
