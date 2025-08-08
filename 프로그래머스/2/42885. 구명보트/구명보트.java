@@ -5,14 +5,15 @@ class Solution {
         int answer = 0;
         Arrays.sort(people);
         
-        int p1 = 0;
-        int p2 = people.length - 1;
+        int lightPt = 0;
+        int heavyPt = people.length - 1;
         
-        while(p1 <= p2){
-            if (people[p1] + people[p2] <= limit){
-                p1 ++;
+        while(lightPt <= heavyPt){
+            if (people[lightPt] + people[heavyPt] <= limit){
+                lightPt ++; // 가벼운놈 태우기
             }
-            p2 --;
+            heavyPt --; // 무거운놈 태우기 
+            
             answer ++;
         }
         
@@ -54,6 +55,15 @@ class Solution {
     .. 아닌 것 같음 
     
     ---
+    
+    [보트한번에 최대한으로 실는다. -> 보트를 최소한 으로 사용한다. -> 그리디]
+    => 보트 한번에 2명씩 실는 것을 많이해야 보트 수를 줄일 수 있음 
+    => 오름정렬 후 두명씩 실을 수 있도록,, (좌 우 양끝을 봐야함) 
+    => 투포인터 사용 
+    
+    => 무거운 사람은 항상 태워야함 
+    => 진행되면 될 수록 가벼운사람은 점점 없어짐 
+    => 즉, 어차피 보트하나는 무조건 차지함
     
     정렬한 다음 투 포인터 스캔 으로 리미트까지 채우기..?
     정렬 O(n log n )
