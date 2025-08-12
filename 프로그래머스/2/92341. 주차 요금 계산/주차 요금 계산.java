@@ -30,7 +30,7 @@ class Solution {
     public int[] solution(int[] fees, String[] records) {
         List<Integer> result = new ArrayList<Integer>();
         
-        Map<String, List<Record>> recordMap = new LinkedHashMap<>();
+        Map<String, List<Record>> recordMap = new TreeMap<>();
         
         for (String record : records){
             String [] splited = record.split(" ");
@@ -40,7 +40,7 @@ class Solution {
             String flag = splited[2];
             
             if (flag.equals("IN")){
-                if (!recordMap.keySet().contains(plateNumber)) {
+                if (!recordMap.containsKey(plateNumber)) {
                     List<Record> plateRecords = new ArrayList<>(); 
                     recordMap.put(plateNumber, plateRecords);
                 }
@@ -58,10 +58,7 @@ class Solution {
         int unitFee = fees[3];
         
         
-        List<String> orderKeySet = new ArrayList<>(recordMap.keySet());
-        Collections.sort(orderKeySet);
-        
-        for (String plateNum: orderKeySet){
+        for (String plateNum: recordMap.keySet()){
 
             int sumMinute = 0;
             for (Record r : recordMap.get(plateNum)){
