@@ -3,7 +3,7 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
 
-        PriorityQueue<Integer> pq = new PriorityQueue<>(100_000, (a,b)-> Integer.compare(b,a));
+        PriorityQueue<Integer> pq = new PriorityQueue<>(100_001, (a,b)-> Integer.compare(b,a));
 
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
@@ -11,7 +11,7 @@ public class Main {
             int x = sc.nextInt();
 
             if (x != 0){
-                if (pq.size() < 100_000) pq.add(x);
+                if (pq.size() < 100_001) pq.add(x);
                 else {
                     if (pq.peek() > x) continue;
                     else pq.add(x);
