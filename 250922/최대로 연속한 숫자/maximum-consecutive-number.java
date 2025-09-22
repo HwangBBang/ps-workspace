@@ -1,17 +1,20 @@
 import java.util.*;
+import java.io.*;
+
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-
-        int m = sc.nextInt();
-        int[] removals = new int[m];
-
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+        
         TreeSet<Integer> tree = new TreeSet<>();
+        st = new StringTokenizer(br.readLine());
 
         for (int i = 0; i < m; i++) {
-            tree.add(sc.nextInt());
+            tree.add(Integer.parseInt(st.nextToken()));
 
             int result = solution(tree, n);
             
