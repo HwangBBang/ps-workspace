@@ -3,7 +3,7 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
 
-        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        TreeSet<Integer> tree = new TreeSet<>();
 
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
@@ -12,17 +12,17 @@ public class Main {
 
         for(int i = 0; i < n; i++){
             arr[i] = sc.nextInt();
+            tree.add(arr[i]);
             total += arr[i];
-            pq.add(arr[i]);
         }
 
         double maxAvg = -1;
-        total -= pq.poll();
         
-
-        for(int t = 2; t < n-1; t++){ 
-            total -= pq.poll();
-            double candidate = (double)(total) / (n - t);
+        for(int k = 1; k < n-1; k++){ 
+            tree.remove(arr[k-1]);
+            total -= arr[k-1];
+            Integer minValue = tree.first();
+            double candidate = (double)(total - minValue) / (n - k - 1);
             
             maxAvg = Math.max(maxAvg, candidate);
         }
