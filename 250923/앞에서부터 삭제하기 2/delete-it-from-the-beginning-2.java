@@ -16,13 +16,14 @@ public class Main {
             pq.add(arr[i]);
         }
 
-        double maxAvg = (double)total/n;
+        double maxAvg = -1;
         
+        total -= pq.poll();
+        int pqSize = n-1;
 
-        int pqSize = n;
-        for(int i = 1; i < n-1; i++){
-            int polled = pq.poll();
-            total -= polled;
+
+        for(int i = 1; i < n-1; i++){ 
+            total -= pq.poll();
             double candidate = (double)(total) / (pqSize -i);
             
             maxAvg = Math.max(maxAvg, candidate);
