@@ -6,30 +6,26 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         
-
         PriorityQueue<Integer> pq = new PriorityQueue<>();
-
-        Scanner sc = new Scanner(System.in);
         int n = Integer.parseInt(st.nextToken());
 
         int[] arr = new int[n];
-        long total = 0;
 
         st = new StringTokenizer(br.readLine());
         for(int i = 0; i < n; i++){
             arr[i] = Integer.parseInt(st.nextToken());
-            pq.add(arr[i]);
-            total += arr[i];
         }
 
+        long total = arr[n-1];
         double maxAvg = -1;
         
-        for(int k = 1; k < n-1; k++){ 
-            pq.remove(arr[k-1]);
-            total -= arr[k-1];
-            Integer minValue = pq.peek();
-            double candidate = (double)(total - minValue) / (n - k - 1);
-            
+        pq.add(arr[n-1]);
+        for(int i = 2; i < n-1; i++){ 
+            pq.add(arr[n-i]);
+            total += arr[n-i];
+
+            double candidate = (double)(total-pq.peek()) / (pq.size() -1);
+
             maxAvg = Math.max(maxAvg, candidate);
         }
 
