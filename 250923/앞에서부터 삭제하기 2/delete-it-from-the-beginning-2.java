@@ -18,11 +18,11 @@ public class Main {
 
         double maxAvg = -1;
         
-
+        
 
         for(int t = 2; t <= n-1; t++){ 
             total -= pq.poll();
-            double candidate = (double)(total) / (pqSize -i);
+            double candidate = (double)(total) / (n - t);
             
             maxAvg = Math.max(maxAvg, candidate);
         }
@@ -36,7 +36,7 @@ public class Main {
 }
 
 
-작은 거 k + 1 개 삭제 t 개 
-t 2 ~ n -1
+// 작은 거 k + 1 개 삭제 t 개 
+// t 2 ~ n -1
 
-k 1 ~ n -2
+// k 1 ~ n -2
