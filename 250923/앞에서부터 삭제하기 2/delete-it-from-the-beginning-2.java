@@ -17,7 +17,8 @@ public class Main {
         double maxAvg = -1;
         
         // 첫 번째 제거 (k=1인 경우)
-        int remaining = n ;
+        total -= pq.poll();
+        int remaining = n - 1;
 
         // k=1부터 k=n-2까지 모든 경우 고려
         for(int k = 1; k <= n-2; k++){ 
