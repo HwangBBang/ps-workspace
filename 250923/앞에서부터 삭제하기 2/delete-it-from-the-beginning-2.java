@@ -22,7 +22,7 @@ public class Main {
         int pqSize = n-1;
 
 
-        for(int i = 1; i < n-1; i++){ 
+        for(int i = 1; i < n-2; i++){ 
             total -= pq.poll();
             double candidate = (double)(total) / (pqSize -i);
             
