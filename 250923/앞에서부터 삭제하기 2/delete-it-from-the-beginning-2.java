@@ -2,33 +2,41 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
+
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         int[] arr = new int[n];
-        
+        long total = 0;
+
         for(int i = 0; i < n; i++){
             arr[i] = sc.nextInt();
+            total += arr[i];
+            pq.add(arr[i]);
         }
-        
-        double maxAvg = 0;
-        PriorityQueue<Integer> pq = new PriorityQueue<>();
 
-        // k=1부터 k=n-2까지 모든 경우 확인
-        for(int k = 1; k <= n-2; k++) {
-            pq.clear();
-            long sum = 0;
-            
-            // 뒤의 n-k개 원소를 pq에 추가
-            for(int i = k; i < n; i++) {
-                pq.add(arr[i]);
-                sum += arr[i];
-            }
-            
-            // 최솟값 제거한 평균 계산
-            double avg = (double)(sum - pq.peek()) / (n - k - 1);
-            maxAvg = Math.max(maxAvg, avg);
-        }
+        double maxAvg = -1;
         
+
+
+        for(int t = 2; t <= n-1; t++){ 
+            total -= pq.poll();
+            double candidate = (double)(total) / (pqSize -i);
+            
+            maxAvg = Math.max(maxAvg, candidate);
+        }
+
         System.out.printf("%.2f", maxAvg);
+            
+        /*
+        n 번 돌면서 제거 -> nlog(n)
+        */
     }
 }
+
+
+작은 거 k + 1 개 삭제 t 개 
+t 2 ~ n -1
+
+k 1 ~ n -2
