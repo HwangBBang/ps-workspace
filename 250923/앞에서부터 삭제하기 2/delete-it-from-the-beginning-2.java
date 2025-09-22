@@ -3,7 +3,7 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
 
-        TreeSet<Integer> tree = new TreeSet<>();
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
 
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
@@ -12,16 +12,16 @@ public class Main {
 
         for(int i = 0; i < n; i++){
             arr[i] = sc.nextInt();
-            tree.add(arr[i]);
+            pq.add(arr[i]);
             total += arr[i];
         }
 
         double maxAvg = -1;
         
         for(int k = 1; k < n-1; k++){ 
-            tree.remove(arr[k-1]);
+            pq.remove(arr[k-1]);
             total -= arr[k-1];
-            Integer minValue = tree.first();
+            Integer minValue = pq.peek();
             double candidate = (double)(total - minValue) / (n - k - 1);
             
             maxAvg = Math.max(maxAvg, candidate);
