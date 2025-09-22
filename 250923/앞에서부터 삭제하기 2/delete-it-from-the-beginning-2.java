@@ -1,17 +1,23 @@
 import java.util.*;
+import java.io.*;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        
 
         PriorityQueue<Integer> pq = new PriorityQueue<>();
 
         Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
+        int n = Integer.parseInt(st.nextToken());
+
         int[] arr = new int[n];
         long total = 0;
 
+        st = new StringTokenizer(br.readLine());
         for(int i = 0; i < n; i++){
-            arr[i] = sc.nextInt();
+            arr[i] = Integer.parseInt(st.nextToken());
             pq.add(arr[i]);
             total += arr[i];
         }
