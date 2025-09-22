@@ -8,7 +8,7 @@ public class Main {
         int N = sc.nextInt();
         int[] arr = new int[N];
 
-        int answer ;
+        long answer ;
         for (int i = 0; i < N; i++) {
             answer = 1;
             arr[i] = sc.nextInt();
