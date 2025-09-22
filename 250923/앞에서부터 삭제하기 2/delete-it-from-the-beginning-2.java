@@ -17,10 +17,10 @@ public class Main {
         }
 
         double maxAvg = -1;
-        
+        total -= pq.poll();
         
 
-        for(int t = 2; t <= n-1; t++){ 
+        for(int t = 2; t < n-1; t++){ 
             total -= pq.poll();
             double candidate = (double)(total) / (n - t);
             
