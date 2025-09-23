@@ -70,10 +70,10 @@ public class Main {
                 System.out.println(curNode.toString());
             }
             else if (cmd == 3){
-                
+                curNode.changeToPrev();
             }
             else if (cmd == 4){
-
+                curNode.changeToNext();
             }
         }
     }
