@@ -13,14 +13,12 @@ public class Main {
 
         @Override
         public int compareTo(Person other){
-            if (this.end != other.end){
+            if (this.end != other.end)
                 return Integer.compare(this.end, other.end);
-            } else if (this.num != other.num){
-                return Integer.compare(this.num, other.num);
-            } else{
-                return Integer.compare(this.start, other.start);
-            }
+            else 
+                return Integer.compare(this.num, other.num);   
         }
+
         @Override
         public String toString(){
             return "시작" + start + "| 종료" + end + "| 번호" + num ;
@@ -30,31 +28,53 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        
+        // end 순으로,, 
+        List<Person> people = new ArrayList<>();
 
-        PriorityQueue<Person> pq = new PriorityQueue<>();
         int n = sc.nextInt();
         int[] a = new int[n];
         int[] t = new int[n];
         for (int i = 0; i < n; i++) {
             a[i] = sc.nextInt();
             t[i] = sc.nextInt();
-            pq.add(new Person(i+1,a[i],t[i]));
+            people.add(new Person(i+1,a[i],t[i]));
+        }
+        
+        Collections.sort(people);
+
+        PriorityQueue<Person> waitQ = new PriorityQueue<>(
+            (p1,p2) -> Integer.compare(p1.num, p2.num)
+        );
+        
+        int maxDelay = 0;
+        int time = 0;
+        int i = 0;
+        int processed = 0;
+
+        while(processed < n) {
+            if (waitQ.isEmpty()){
+                time = Math.max(time , people.get(i).start); 
+                while (i < n && people.get(i).start <= time){
+                    waitQ.add(people.get(i++));
+                }
+            }
+
+            Person cur = waitQ.poll();
+            int delay = time - cur.start;
+            maxDelay = Math.max(maxDelay, delay);
+
+            time += cur.during;
+
+            while (i < n && people.get(i).start <= time){
+                    waitQ.add(people.get(i++));
+            }
+            processed ++;
+
         }
 
-        Person prev = pq.poll();
-        int totalDelay = 0;
-        int answer = Integer.MIN_VALUE;
-        // System.out.println(prev.toString());
-        for (int i = 1; i < n; i++) {
-            Person cur = pq.poll();
-            int curDelay = prev.end - cur.start;
-            // System.out.println(cur.toString() + " | 대기: " + curDelay);
-            totalDelay += curDelay;
-            totalDelay = Math.max(totalDelay, 0);
-            answer = Math.max(answer, totalDelay);
-            prev = cur;
-        }
-        System.out.println(answer);
+        System.out.println(maxDelay);
+
     }
 }
 /*
