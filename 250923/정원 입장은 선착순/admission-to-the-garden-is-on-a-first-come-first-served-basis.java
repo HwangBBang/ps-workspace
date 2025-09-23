@@ -47,30 +47,34 @@ public class Main {
             (p1,p2) -> Integer.compare(p1.num, p2.num)
         );
         
-   long time = 0L, maxDelay = 0L;
-        int idx = 0, processed = 0;
+        long time = 0L;
+        long maxWait = 0L;
+        int idx = 0;        // 아직 대기열에 넣지 않은 사람의 인덱스
+        int served = 0;
 
-        while (processed < n) {
-            if (waitQ.isEmpty()) {
-                time = Math.max(time, people.get(idx).start);   // 다음 도착 시각으로 점프
-                while (idx < n && people.get(idx).start <= time) {
-                    waitQ.offer(people.get(idx++));             // <-- offer로 넣기
-                }
-            }
-
-            Person cur = waitQ.poll();                          // 꺼내기
-            long delay = time - cur.start;
-            if (delay > maxDelay) maxDelay = delay;
-
-            time += cur.during;
-
+        while (served < n) {
+            // 현재 시각까지 도착한 사람을 모두 대기열에 넣는다
             while (idx < n && people.get(idx).start <= time) {
-                waitQ.offer(people.get(idx++));                 // <-- offer
+                waitQ.offer(people.get(idx++));
             }
-            processed++;
+
+            // 대기열이 비어 있으면 다음 도착까지 '점프'
+            if (waitQ.isEmpty()) {
+                // 남은 사람이 있다면 그 사람의 도착 시각으로 이동
+                time = people.get(idx).start;
+                continue; // 점프 후 다시 채우기 루프부터
+            }
+
+            // 번호가 가장 작은 사람 입장
+            Person cur = waitQ.poll();
+            long wait = time - cur.start;          // 도착 시각 ≤ 현재 시각 보장
+            if (wait > maxWait) maxWait = wait;
+
+            time += cur.during;                     // 정원을 비우는 시각으로 진행
+            served++;
         }
 
-        System.out.println(maxDelay);
+        System.out.println(maxWait);
     }
 }
 /*
