@@ -1,8 +1,9 @@
 import java.util.*;
+
 public class Main {
-    static class Person implements Comparable<Person>{
+    static class Person {
         int num;
-        int start,during,end;
+        int start, during, end;
 
         public Person(int num, int start, int during){
             this.num = num;
@@ -12,84 +13,62 @@ public class Main {
         }
 
         @Override
-        public int compareTo(Person other){
-            if (this.end != other.end)
-                return Integer.compare(this.end, other.end);
-            else 
-                return Integer.compare(this.num, other.num);   
-        }
-
-        @Override
         public String toString(){
             return "시작" + start + "| 종료" + end + "| 번호" + num ;
         }
     }
-    
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        
-        // end 순으로,, 
-        List<Person> people = new ArrayList<>();
 
+        // 입력
         int n = sc.nextInt();
         int[] a = new int[n];
         int[] t = new int[n];
+
+        List<Person> people = new ArrayList<>(n + 1);
         for (int i = 0; i < n; i++) {
             a[i] = sc.nextInt();
             t[i] = sc.nextInt();
-            people.add(new Person(i+1,a[i],t[i]));
-        }
-        
-        Collections.sort(people);
-
-        PriorityQueue<Person> waitQ = new PriorityQueue<>(
-            (p1,p2) -> Integer.compare(p1.num, p2.num)
-        );
-        
-        long time = 0L;
-        long maxWait = 0L;
-        int idx = 0;        // 아직 대기열에 넣지 않은 사람의 인덱스
-        int served = 0;
-
-        while (served < n) {
-            // 현재 시각까지 도착한 사람을 모두 대기열에 넣는다
-            while (idx < n && people.get(idx).start <= time) {
-                waitQ.offer(people.get(idx++));
-            }
-
-            // 대기열이 비어 있으면 다음 도착까지 '점프'
-            if (waitQ.isEmpty()) {
-                // 남은 사람이 있다면 그 사람의 도착 시각으로 이동
-                time = people.get(idx).start;
-                continue; // 점프 후 다시 채우기 루프부터
-            }
-
-            // 번호가 가장 작은 사람 입장
-            Person cur = waitQ.poll();
-            long wait = time - cur.start;          // 도착 시각 ≤ 현재 시각 보장
-            if (wait > maxWait) maxWait = wait;
-
-            time += cur.during;                     // 정원을 비우는 시각으로 진행
-            served++;
+            // 번호는 1..N
+            people.add(new Person(i + 1, a[i], t[i]));
         }
 
-        System.out.println(maxWait);
+        people.add(new Person(n + 1, Integer.MAX_VALUE, 0));
+
+        // 도착 시각(start) 오름차순, 동시 도착 시 번호(num) 오름차순
+        people.sort(Comparator.comparingInt((Person p) -> p.start)
+                              .thenComparingInt(p -> p.num));
+
+        // 대기열: 번호가 작은 사람이 먼저
+        PriorityQueue<Person> waitQ = new PriorityQueue<>(Comparator.comparingInt(p -> p.num));
+
+        int time = 0;       // 현재 시각(정원 비는 시각)
+        int maxDelay = 0;   // 최대 대기시간
+
+        // 도착 순서대로 한 명씩 보면서, 그 사이에 입장/퇴장을 시뮬레이션
+        for (int i = 0; i < people.size(); i++) {
+            int arrTime = people.get(i).start;
+            int arrNum  = people.get(i).num;
+            int stay    = people.get(i).during;
+
+            // 다음 도착(arrTime) 전까지, 대기열에서 번호가 가장 작은 사람들을 계속 입장
+            while (arrTime > time && !waitQ.isEmpty()) {
+                Person next = waitQ.poll();
+                int delay = time - next.start;         // next.start ≤ time 보장
+                if (delay > maxDelay) maxDelay = delay;
+                time += next.during;                   // 연속 처리
+            }
+
+            // 지금 도착한 사람을 즉시 입장시킬 수 있으면 바로 입장
+            if (arrTime > time) {
+                time = arrTime + stay;
+            } else {
+                // 아니면 대기열에 넣음(번호 기준 우선)
+                waitQ.offer(new Person(arrNum, arrTime, stay));
+            }
+        }
+
+        System.out.println(maxDelay);
     }
 }
-/*
-1~N 명의 사람들 
-
-도착 시간 a1 
-잔류 시간 t1
-떠나는시간 a1 + t1
-
-정원에는 한사람만 입장가능 , 대기(큐)
-
-25 3
-105 30
-20 50
-10 17
-100 10
-
-*/
