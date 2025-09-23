@@ -13,11 +13,11 @@ public class Main {
 
         @Override
         public int compareTo(Person other){
-            if (this.start == other.start){
+            if (this.start == other.start) 
                 return Integer.compare(this.num, other.num);
-            } else 
+            else 
                 return Integer.compare(this.end, other.end);
-            }
+            
         }
         @Override
         public String toString(){
