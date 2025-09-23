@@ -47,34 +47,30 @@ public class Main {
             (p1,p2) -> Integer.compare(p1.num, p2.num)
         );
         
-        int maxDelay = 0;
-        int time = 0;
-        int i = 0;
-        int processed = 0;
+   long time = 0L, maxDelay = 0L;
+        int idx = 0, processed = 0;
 
-        while(processed < n) {
-            if (waitQ.isEmpty()){
-                time = Math.max(time , people.get(i).start); 
-                while (i < n && people.get(i).start <= time){
-                    waitQ.add(people.get(i++));
+        while (processed < n) {
+            if (waitQ.isEmpty()) {
+                time = Math.max(time, people.get(idx).start);   // 다음 도착 시각으로 점프
+                while (idx < n && people.get(idx).start <= time) {
+                    waitQ.offer(people.get(idx++));             // <-- offer로 넣기
                 }
             }
 
-            Person cur = waitQ.poll();
-            int delay = time - cur.start;
-            maxDelay = Math.max(maxDelay, delay);
+            Person cur = waitQ.poll();                          // 꺼내기
+            long delay = time - cur.start;
+            if (delay > maxDelay) maxDelay = delay;
 
             time += cur.during;
 
-            while (i < n && people.get(i).start <= time){
-                    waitQ.add(people.get(i++));
+            while (idx < n && people.get(idx).start <= time) {
+                waitQ.offer(people.get(idx++));                 // <-- offer
             }
-            processed ++;
-
+            processed++;
         }
 
         System.out.println(maxDelay);
-
     }
 }
 /*
