@@ -6,23 +6,43 @@ public class Main {
         int n = sc.nextInt();
         int m = sc.nextInt();
         
-        Map<Integer,Integer> arrMap = new HashMap<>();
-        int[] arr = new int[n+1];
+        // Map<Integer,Integer> arrMap = new HashMap<>();
+        int[] arr = new int[n];
 
-        for (int i = 1; i <= n; i++){
+        for (int i = 0; i < n; i++){
             arr[i] = sc.nextInt();
-            arrMap.put(arr[i],i);
         }
             
 
         for (int i = 0; i < m; i++) {
             int x = sc.nextInt();
-            if (!arrMap.containsKey(x)) System.out.println(-1);
-            else{
-                System.out.println(arrMap.get(x));
-            }
-
+            int result = binarySearch(arr,x);
+            System.out.println(result);
         }
 
+    }
+
+    public static int binarySearch(int[] arr, target){
+        int len = arr.length;
+        int left = 0, right = len - 1;
+        
+        int idx = -1; 
+
+        while(left <= right){
+            int mid = (left + right) / 2;
+            if (arr[mid] == target) {
+                idx = mid;
+                break;
+            }
+
+            if (arr[mid] < target){
+                right = mid - 1;
+            }else{
+                left = mid + 1;
+            }
+        }
+        
+        
+        return idx;
     }
 }
