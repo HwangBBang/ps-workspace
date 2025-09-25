@@ -14,7 +14,13 @@ public class Main {
             for (int j = 1; j <= n; j++) {
                 arr[i][j] = sc.nextInt();
                 prefixSum[i][j] = prefixSum[i][j-1] + prefixSum[i-1][j] - prefixSum[i-1][j-1] + arr[i][j];
-                result = Math.max(result, prefixSum[i][j]);
+            }
+        }
+
+        for (int i = k; i <= n; i++) {
+            for (int j = k; j <= n; j++) {
+                int candidate = prefixSum[i][j] - prefixSum[i-k][j] - prefixSum[i][j-k] + prefixSum[i-k][j-k]; 
+                result = Math.max(result, candidate);
             }
         }
 
