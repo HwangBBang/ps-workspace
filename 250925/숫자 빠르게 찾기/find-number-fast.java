@@ -22,7 +22,7 @@ public class Main {
 
     }
 
-    public static int binarySearch(int[] arr, inttarget){
+    public static int binarySearch(int[] arr, int target){
         int len = arr.length;
         int left = 0, right = len - 1;
         
