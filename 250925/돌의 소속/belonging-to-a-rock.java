@@ -6,8 +6,6 @@ public class Main {
         int q = sc.nextInt();
         
         boolean[][] group = new boolean[3+1][n + 1];
-        boolean[] group2 = new boolean[n + 1];
-        boolean[] group3 = new boolean[n + 1];
         
 
         for (int i = 1; i <= n; i++) {
@@ -16,12 +14,35 @@ public class Main {
         }
         int[] a = new int[q];
         int[] b = new int[q];
+
+
         for (int i = 0; i < q; i++) {
-            
-            a[i] = sc.nextInt();
-            b[i] = sc.nextInt();
+            a[i] = sc.nextInt(); b[i] = sc.nextInt();            
         }
-        // Please write your code here.
+
+        int [][] prefixCnt = new int [3+1][n+1];
+        
+        for (int i = 1; i <= 3; i++){
+            for (int j = 1; j <= n; j++){
+                int cnt = group[i][j] ? 1 : 0;
+                prefixCnt[i][j] = prefixCnt[i][j-1] + cnt;
+            }
+        }
+        
+        StringBuilder sb;
+
+        for (int k = 0; k < q; k++) {
+            sb = new StringBuilder();
+            int start = a[k], end = b[k];
+            for (int i = 1; i <= 3; i++){
+                int eachCnt = prefixCnt[i][end] - prefixCnt[i][start-1];
+                sb = sb.append(eachCnt).append(" ");
+            }
+            System.out.println(sb);
+
+        }
+        
+    
     }
 }
 
