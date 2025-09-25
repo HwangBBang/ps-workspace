@@ -1,31 +1,50 @@
 import java.util.*;
+import java.io.*;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt(); int m = sc.nextInt();
+     public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
 
-        boolean[] points = new boolean[100_000+1];
+        int[] points = new int[n];
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < n; i++) points[i] = Integer.parseInt(st.nextToken());
+        Arrays.sort(points);
 
-        for (int i = 0; i < n; i++) {
-            points[sc.nextInt()] = true;
-        }
-
-        int[] prefixCnt = new int[100_000+1];
-        for (int i = 1; i <= 100_000; i++){
-            int cnt = points[i] ? 1 : 0;
-            
-            prefixCnt[i] = prefixCnt[i-1] + cnt;
-        }
-
-        int a, b;
+        StringBuilder out = new StringBuilder();
         for (int i = 0; i < m; i++) {
-            a = sc.nextInt(); b = sc.nextInt();
-            
-            System.out.println(prefixCnt[b] - prefixCnt[a-1]);
-        }
-        
-    }
-}
+            st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
 
-// 1~5, 5~21, 22~59, 210~293
+            int lowerIdx = lowerBound(points, a); // 첫 ≥ a
+            int upperIdx = upperBound(points, b); // 첫 > b
+            int count = upperIdx - lowerIdx;
+            out.append(count).append('\n');
+        }
+        System.out.print(out.toString());
+    }
+
+    static int lowerBound(int[] arr, int x) { // 첫 번째 >= x
+        int lo = 0, hi = arr.length;
+        while (lo < hi) {
+            int mid = (lo + hi)/2;
+            if (arr[mid] >= x) hi = mid;
+            else lo = mid + 1;
+        }
+        return lo;
+    }
+
+    static int upperBound(int[] arr, int x) { // 첫 번째 > x
+        int lo = 0, hi = arr.length;
+        while (lo < hi) {
+            int mid = (lo + hi)/2;
+            if (arr[mid] > x) hi = mid;
+            else lo = mid + 1;
+        }
+        return lo;
+    }
+
+}
