@@ -31,11 +31,11 @@ public class Main {
         while(left <= right){
             int mid = (left + right) / 2;
             if (arr[mid] == target) {
-                idx = mid;
+                idx = mid + 1;
                 break;
             }
 
-            if (arr[mid] < target){
+            if (target < arr[mid]){
                 right = mid - 1;
             }else{
                 left = mid + 1;
