@@ -19,7 +19,7 @@ public class Main {
             this.y2 = y2;
         }
     }
-
+    static int posSize = 0;
 
     public static void main(String[] args) {
         
@@ -53,7 +53,7 @@ public class Main {
             rectangles[i] = new Rectangle(x1,y1,x2,y2);
         }
         
-        int posSize = 1;
+        posSize = 1;
         for (int pos : tree) map.put(pos, posSize++);
         
         for (int i = 0; i < n; i++){
@@ -104,7 +104,7 @@ public class Main {
         if (overX != null){
             return map.get(overX);
         }
-        return 0;
+        return posSize;
     }
 
     static int getUpperDecode(int x, TreeSet<Integer> tree, HashMap<Integer,Integer> map){
@@ -112,7 +112,7 @@ public class Main {
         if (underX != null){
             return map.get(underX);
         }
-        return 2500+2;
+        return 0;
     }
 }
 
