@@ -54,6 +54,7 @@ public class Main {
             int v = sc.nextInt();
             int w = sc.nextInt();
             graph[u].add(new Edge(v,w));
+            graph[v].add(new Edge(u,w));
         }
 
         int a = sc.nextInt();
