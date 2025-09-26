@@ -26,7 +26,7 @@ public class Main {
         TreeSet<Integer> tree = new TreeSet<>();
         HashMap<Integer,Integer> map = new HashMap<>(); // real, zip
         
-        int[][] prefixSum = new int[2500 + 2][2500 + 2];
+        int[][] prefixSum = new int[5000 + 2][5000 + 2];
 
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
