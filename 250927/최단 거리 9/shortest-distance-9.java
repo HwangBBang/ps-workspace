@@ -77,7 +77,7 @@ public class Main {
 
             if (curNode.dist != dist[curNode.num]) continue;
 
-            for (Edge edge :graph[curNode.num]){
+            for (Edge edge : graph[curNode.num]){
                 int newDist = edge.weight + curNode.dist;
                 if (newDist < dist[edge.to]){
                     dist[edge.to] = newDist;
