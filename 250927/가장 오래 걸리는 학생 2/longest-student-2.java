@@ -46,8 +46,8 @@ public class Main {
             
             graph[a].add(new Edge(b,d));
             graph[b].add(new Edge(a,d));
-
         }
+
 
         dist = new int[n+1];
         Arrays.fill(dist, Integer.MAX_VALUE);
@@ -56,7 +56,7 @@ public class Main {
         
         int result = Integer.MIN_VALUE;
         for (int i = 1; i <= n; i++){
-            // dist[i]= dist[i] == Integer.MIN_VALUE ? -1 : dist[i];
+            dist[i] = dist[i] == Integer.MIN_VALUE ? -1 : dist[i];
             result = Math.max(result, dist[i]);
         }
         System.out.println(result);
