@@ -66,14 +66,11 @@ public class Main {
         PriorityQueue<Node> minHeap = new PriorityQueue<>();
         
         minHeap.add(new Node(1, 0));
-        for (int i = 2; i <= n; i ++){
-            minHeap.add(new Node(i, INF));
-        }
 
         while(!minHeap.isEmpty()){
             Node curNode = minHeap.poll();
         
-            if (curNode.dist > dist[curNode.num]) continue;
+            if (curNode.dist != dist[curNode.num]) continue;
 
             for (Edge edge : graph[curNode.num]){
                 int newDist = curNode.dist + edge.weight;
@@ -83,11 +80,7 @@ public class Main {
                     minHeap.add(new Node(edge.to, newDist));
                 }
             }
-            
-
         }
-
-
     }
 }
 
