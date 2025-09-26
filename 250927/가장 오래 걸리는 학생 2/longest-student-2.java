@@ -56,7 +56,6 @@ public class Main {
         
         int result = Integer.MIN_VALUE;
         for (int i = 1; i <= n; i++){
-            dist[i] = dist[i] == Integer.MIN_VALUE ? -1 : dist[i];
             result = Math.max(result, dist[i]);
         }
         System.out.println(result);
@@ -69,7 +68,7 @@ public class Main {
         dist[start] = 0;
         while(!minHeap.isEmpty()){
             Node curNode = minHeap.poll();
-            if(curNode.dist != dist[curNode.num]) continue;
+            if(curNode.dist > dist[curNode.num]) continue;
 
             for (Edge edge : graph[curNode.num]){
                 int newDist = curNode.dist + edge.weight;
