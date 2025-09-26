@@ -56,6 +56,7 @@ public class Main {
         dijkstra(1);
 
         for (int i = 2; i <= n; i++){
+            dist[i] = dist[i] == INF ? -1 : dist[i];
             System.out.println(dist[i]);
         }
 
