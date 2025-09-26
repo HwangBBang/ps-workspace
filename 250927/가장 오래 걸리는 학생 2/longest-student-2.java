@@ -44,7 +44,7 @@ public class Main {
             int b = sc.nextInt();
             int d = sc.nextInt();
             
-            graph[a].add(new Edge(b,d));
+            // graph[a].add(new Edge(b,d));
             graph[b].add(new Edge(a,d));
         }
 
@@ -80,7 +80,5 @@ public class Main {
                 }
             }
         }
-
-
     }
 }
