@@ -10,6 +10,7 @@ public class Main {
         public Node(int num,long cost, int time){
             this.num = num;
             this.cost = cost;
+            this.time = time;
         }
         
         @Override 
