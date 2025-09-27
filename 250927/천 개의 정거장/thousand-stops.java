@@ -94,7 +94,7 @@ public class Main {
             Map<Integer, Edge> m = gmap[i];
             graph[i] = new ArrayList<>(m.size());
             graph[i].addAll(m.values());
-            gmap[i] = null; // GC 힌트
+            // gmap[i] = null; // GC 힌트
     }
 
 
