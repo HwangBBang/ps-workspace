@@ -35,7 +35,8 @@ public class Main {
     }
 
     static List<Edge>[] graph;
-    
+    static Map<Integer, Edge>[] gmap; 
+
     static long[] minCost;
     static int[] minTime;
 
@@ -53,14 +54,17 @@ public class Main {
         int B = Integer.parseInt(st.nextToken());
         int N = Integer.parseInt(st.nextToken());
         
-        graph = new ArrayList[NODE_CNT+1];
+        
+        gmap = new HashMap[NODE_CNT + 1];
 
         for (int i = 1; i <= NODE_CNT; i++){
-            graph[i] = new ArrayList<>();
+            // graph[i] = new ArrayList<>();
+            gmap[i] = new HashMap<>();
         }
 
         minCost = new long[NODE_CNT+1];
         minTime = new int[NODE_CNT+1];
+        
         Arrays.fill(minCost, INF);
         Arrays.fill(minTime, Integer.MAX_VALUE);
 
@@ -80,10 +84,18 @@ public class Main {
 
             for (int u = 0; u < stopCount; u++){
                 for (int v = u+1; v < stopCount; v++){
-                    graph[path[u]].add(new Edge(path[v],cost,v-u));
+                    // graph[path[u]].add(new Edge(path[v],cost,v-u));
+                    putMinEdge(path[u],path[v],cost, v-u);
                 }
             }
         }
+        graph = new ArrayList[NODE_CNT+1];
+        for (int i = 1; i <= NODE_CNT; i++) {
+            Map<Integer, Edge> m = gmap[i];
+            graph[i] = new ArrayList<>(m.size());
+            graph[i].addAll(m.values());
+            gmap[i] = null; // GC 힌트
+    }
 
 
         dijkstra(A);
@@ -114,12 +126,21 @@ public class Main {
                     minCost[edge.to] = newCost;
                     minTime[edge.to] = newTime;
                     minHeap.add(new Node(edge.to, newCost, newTime));
+
                 } else if (minCost[edge.to] == newCost && minTime[edge.to] > newTime){
                     minTime[edge.to] = newTime;
                     minHeap.add(new Node(edge.to, newCost, newTime));
+
                 }
 
             }
+        }
+    }
+    // 사전식 기준으로 더 좋은 간선만 저장
+    static void putMinEdge(int u, int v, int fare, int time) {
+        Edge old = gmap[u].get(v);
+        if (old == null || fare < old.fare || (fare == old.fare && time < old.time)) {
+            gmap[u].put(v, new Edge(v, fare, time));
         }
     }
 }
