@@ -27,9 +27,11 @@ public class Main {
         }
     }
 
+    static long [] dist;
     static List<Edge>[] graph;
     static int n;
     static final long INF = Long.MAX_VALUE;
+    static int a, b, c;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -46,9 +48,9 @@ public class Main {
         
 
         st = new StringTokenizer(br.readLine());
-        int a = Integer.parseInt(st.nextToken());
-        int b = Integer.parseInt(st.nextToken());
-        int c = Integer.parseInt(st.nextToken());
+        a = Integer.parseInt(st.nextToken());
+        b = Integer.parseInt(st.nextToken());
+        c = Integer.parseInt(st.nextToken());
 
         int[] targets = new int[]{a,b,c};
 
@@ -64,26 +66,28 @@ public class Main {
 
         
         long answer = 0;
+        dijkstra();
         
-        long [] distA = dijkstra(a);
-        long [] distB = dijkstra(b);
-        long [] distC = dijkstra(c);
 
         for (int i = 1; i <= n; i++){
-            long max = Math.min(distA[i], Math.min(distB[i], distC[i]));
-            answer = Math.max(max,answer);
+            answer = Math.max(answer,dist[i]);   
         }
-        System.out.print(answer);
+        System.out.println(answer);
         
     }
 
-    static long[] dijkstra(int start){
-        long [] dist = new long[n+1];
+    static void dijkstra(){
+        dist = new long[n+1];
         Arrays.fill(dist, INF);
 
-        dist[start] = 0;
+        dist[a] = 0;
+        dist[b] = 0;
+        dist[c] = 0;
+
         PriorityQueue<Node> pq = new PriorityQueue<>();
-        pq.add(new Node(start,0));
+        pq.add(new Node(a,0));
+        pq.add(new Node(b,0));
+        pq.add(new Node(c,0));
 
         while(!pq.isEmpty()){
             Node cur = pq.poll();
@@ -99,7 +103,7 @@ public class Main {
                 }
             }
         }
-        return dist;
+        
     }
 }
 
