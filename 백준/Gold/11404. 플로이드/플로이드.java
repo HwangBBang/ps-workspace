@@ -1,49 +1,23 @@
+
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Main {
 
-    static class Node implements Comparable<Node>{
-        int num;
-        int dist;
-
-        public Node(int num, int dist) {
-            this.num = num;
-            this.dist = dist;
-        }
-
-        @Override
-        public int compareTo(Node other) {
-            return Integer.compare(this.dist, other.dist);
-        }
-    }
-
-    static class Edge{
-        int to;
-        int cost;
-
-        public Edge(int to, int cost) {
-            this.to = to;
-            this.cost = cost;
-        }
-    }
-
-    static List<Edge>[] graph;
-    static int n;
     static final int INF = Integer.MAX_VALUE;
 
     public static void main(String[] args) throws IOException {
-       // System.setIn(new FileInputStream("src/beakjun/gold/input.txt"));
+//        System.setIn(new FileInputStream("src/beakjun/gold/input.txt"));
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
-        n = Integer.parseInt(br.readLine());
+        int n = Integer.parseInt(br.readLine());
         int m = Integer.parseInt(br.readLine());
 
-        graph = new ArrayList[n + 1];
-        for (int i = 1; i <= n; i++) {
-            graph[i] = new ArrayList<>();
+        int[][] dist = new int[n + 1][n + 1];
+        for (int i = 1; i <= n ; i++) {
+            Arrays.fill(dist[i], INF);
+            dist[i][i] = 0;
         }
 
         for (int i = 1; i <= m; i++) {
@@ -52,21 +26,35 @@ public class Main {
             int to = Integer.parseInt(st.nextToken());
             int cost = Integer.parseInt(st.nextToken());
 
-            graph[from].add(new Edge(to, cost));
+            if (dist[from][to] > cost) dist[from][to] = cost;
         }
-        StringBuilder sb;
-        for (int i = 1; i <= n; i++) {
-            int[] dist = dijkstra(i);
-            sb = new StringBuilder();
-            for (int j = 1; j < dist.length; j++) {
-                int d = dist[j] == INF ? 0 : dist[j];
-                sb = sb.append(d).append(" ");
+
+        for (int k = 1; k <= n ; k++) {    // 경유점
+            for (int i = 1; i <= n; i++) { // 츨발점
+                if (dist[i][k] == INF) continue;
+                for (int j = 1; j <= n; j++) { // 도착점
+                    if (dist[k][j] == INF) continue;
+
+                    if (dist[i][j] > dist[i][k] + dist[k][j]) {
+                        dist[i][j] = dist[i][k] + dist[k][j];
+                    }
+                }
             }
-            System.out.println(sb);
         }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                sb.append(dist[i][j] == INF ? 0 : dist[i][j]).append(' ');
+            }
+            sb.append('\n');
+        }
+        System.out.print(sb);
+
     }
 
-    static int[] dijkstra(int start) {
+
+
+/*    static int[] dijkstra(int start) {
         int[] dist = new int[n+1];
         Arrays.fill(dist, INF);
 
@@ -87,7 +75,7 @@ public class Main {
         }
 
         return dist;
-    }
+    }*/
 
 }
 
