@@ -6,7 +6,6 @@ public class Main {
 
     static int n, has, start, end;
     static List<Edge>[] graph;
-    static int[] parent;
     static final int INF = Integer.MAX_VALUE;
 
     static class Node implements Comparable<Node>{
@@ -45,7 +44,6 @@ public class Main {
         has = Integer.parseInt(st.nextToken());
 
         graph = new ArrayList[n+1];
-        parent = new int[n + 1];
         for (int i = 1; i <= n; i++) graph[i] = new ArrayList<>();
 
         int limit = -1;
@@ -67,33 +65,22 @@ public class Main {
     }
 
     public static int getAnswer(int left, int right) {
-        int[] result = dijkstra(start, end, right);
-        if (result[end] == INF) return -1; // 도달 불가
-
-        int answer = result[end];
+        int answer = -1;
 
         while (left <= right) {
             int mid = (left + right) / 2;
-            result = dijkstra(start, end, mid);
-            if (result[end] == INF) {
-                left = mid + 1;
-            } else {
+            int result = dijkstra(start, end, mid);
+            if (result <= has) {
                 right = mid - 1;
-                answer = Math.min(answer, getResult(result));
+                answer = mid;
+            } else {
+                left = mid + 1;
             }
         }
         return answer;
     }
-    public static int getResult(int[] dist) {
-        int answer = INF;
-        int idx = end;
-        while (idx != start) {
-            answer = Math.min(answer, dist[idx]);
-            idx = parent[idx];
-        }
-        return answer;
-    }
-    public static int[] dijkstra(int start, int end, int limit) {
+
+    public static int dijkstra(int start, int end, int limit) {
         int[] dist = new int[n + 1]; Arrays.fill(dist, INF);
         PriorityQueue<Node> pq = new PriorityQueue<>();
 
@@ -104,18 +91,18 @@ public class Main {
             Node cur = pq.poll();
 
             if (cur.cost != dist[cur.num]) continue;
+            if (cur.cost > has) continue;
 
             for (Edge next : graph[cur.num]) {
                 if (next.cost > limit) continue;
                 if (dist[next.to] > cur.cost + next.cost) {
                     dist[next.to] = cur.cost + next.cost;
-                    parent[next.to] = cur.num;
                     pq.add(new Node(next.to, cur.cost + next.cost));
                 }
             }
 
         }
-        return dist;
+        return dist[end];
     }
 }
 
