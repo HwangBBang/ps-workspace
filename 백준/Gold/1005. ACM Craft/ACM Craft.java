@@ -14,15 +14,17 @@ public class Main {
         StringTokenizer st;
 
         int T = Integer.parseInt(br.readLine());
-
+        int[] indegree;
+        int[] useTime;
+        List<Integer>[] preCondition;
         for (int t = 0; t < T; t++) {
             st = new StringTokenizer(br.readLine());
             n = Integer.parseInt(st.nextToken());
             k = Integer.parseInt(st.nextToken());
 
-            int[] indegree = new int[n + 1];
-            int[] useTime = new int[n + 1];
-            List<Integer>[] preCondition = new ArrayList[n + 1];
+            indegree = new int[n + 1];
+            useTime = new int[n + 1];
+            preCondition = new ArrayList[n + 1];
             for (int i = 1; i <= n; i++) preCondition[i] = new ArrayList<>();
 
             st = new StringTokenizer(br.readLine());
