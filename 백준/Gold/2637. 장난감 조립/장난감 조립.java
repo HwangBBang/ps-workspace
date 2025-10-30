@@ -38,12 +38,10 @@ public class Main {
             indegree[prev] ++;
             receipt[next].add(new Node(prev, cost));
         }
-        Map<Integer, Integer> answer = new HashMap<>();
         Queue<Integer> que = new ArrayDeque<>();
         int[] dp = new int[n + 1];
         for (int i = 1; i <= n; i++) {
             if (indegree[i] == 0){
-                answer.put(i, 0);
                 que.add(i);
                 dp[i] = 1;
             }
