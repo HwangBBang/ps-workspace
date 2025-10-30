@@ -11,15 +11,15 @@ public class Main {
 
         int n = Integer.parseInt(br.readLine());
         String[] names = new String[n + 1];
-        Map<String, Integer> indegree = new HashMap<>();
-        TreeMap<String, List<String>> condition = new TreeMap<>();
+        TreeMap<String, Integer> indegree = new TreeMap<>();
+        TreeMap<String, TreeSet<String>> condition = new TreeMap<>();
         TreeMap<String, TreeSet<String>> order = new TreeMap<>();
 
         st = new StringTokenizer(br.readLine());
         for (int i = 1; i <= n; i++) {
             names[i] = st.nextToken();
             indegree.put(names[i], 0);
-            condition.put(names[i], new ArrayList<>());
+            condition.put(names[i], new TreeSet<>());
             order.put(names[i], new TreeSet<>());
 
         }
