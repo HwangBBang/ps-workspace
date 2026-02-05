@@ -1,119 +1,116 @@
-// package baekjoon.gold;
+// package jimin;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.Queue;
-import java.util.StringTokenizer;
-
+import java.io.*;
+import java.util.*;
 
 public class Main {
     static int n;
     static char[][] grid;
-    static final int[] dx = {0, 1, 0, -1};
-    static final int[] dy = {1, 0, -1, 0};
+    static boolean[][] visited;
 
+    static final int[] dx = new int[]{0, 1, 0, -1};
+    static final int[] dy = new int[]{1, 0, -1, 0};
     public static void main(String[] args) throws IOException {
-//        System.setIn(new FileInputStream("src/baekjoon/gold/input.txt"));
+//        System.setIn(new FileInputStream("src/B10026input.txt"));
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         n = Integer.parseInt(br.readLine());
-        grid = new char[n + 1][n + 1];
 
-        for (int i = 1; i <= n; i++) {
-            char[] line = br.readLine().toCharArray();
+        // 입력
+        grid = new char[n][n];
+        for (int i = 0; i < n; i++) {
+            grid[i] = br.readLine().toCharArray();
+        }
+        // 입력 끝
+
+
+        visited = new boolean[n][n];
+        int cnt = 0;
+        for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                grid[i][j + 1] = line[j];
-            }
-        }
-        int normalResult = getArea(false);
-        int disableResult = getArea(true);
-
-        System.out.println(normalResult + " " + disableResult);
-    }
-
-    static int getArea(boolean isDisable) {
-        boolean[][] visited = new boolean[n + 1][n + 1];
-        int area = 0;
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= n; j++) {
                 if (visited[i][j]) continue;
-                if (isDisable){  bfsForDisable(visited, new int[]{i, j});}
-                else{ bfsForNormal(visited, new int[]{i, j});}
-                area ++;
+
+                char color = grid[i][j];
+                bfs(color, i, j);
+                cnt += 1;
             }
         }
-        return area;
-    }
 
-    static void bfsForNormal(boolean[][] visited, int[] start) {
-        Queue<int[]> que = new ArrayDeque<>();
-        int x = start[0], y = start[1];
-        char pivot = grid[x][y];
-        visited[x][y] = true;
-        que.add(start);
-        while (!que.isEmpty()) {
-            int[] cur = que.poll();
-            for (int i = 0; i < dx.length; i++) {
-                int nx = cur[0] + dx[i];
-                int ny = cur[1] + dy[i];
+        visited = new boolean[n][n];
+        int rgclCnt = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (visited[i][j]) continue;
 
-                if (outOfRange(nx,ny)) continue;
-                if (visited[nx][ny]) continue;
-                if (grid[nx][ny] == pivot) {
-                    visited[nx][ny] = true;
-                    que.add(new int[]{nx, ny});
-                }
+                char color = grid[i][j];
+                grclBfs(color, i, j);
+                rgclCnt += 1;
             }
         }
 
 
+        StringBuilder sb = new StringBuilder();
+        sb.append(cnt).append(" ").append(rgclCnt);
+        System.out.println(sb);
     }
 
-    static void bfsForDisable(boolean[][] visited, int[] start) {
+    static void bfs(char color, int x, int y) { // 현재 칼라, 시작 좌표
         Queue<int[]> que = new ArrayDeque<>();
-        int x = start[0], y = start[1];
-        char pivot = grid[x][y];
 
         visited[x][y] = true;
-        que.add(start);
+        que.add(new int[]{x, y});
+
         while (!que.isEmpty()) {
             int[] cur = que.poll();
-            for (int i = 0; i < dx.length; i++) {
-                int nx = cur[0] + dx[i];
-                int ny = cur[1] + dy[i];
+            int cx = cur[0];
+            int cy = cur[1];
 
-                if (outOfRange(nx,ny)) continue;
+            for (int i = 0; i < dx.length; i++) {
+                int nx = cx + dx[i];
+                int ny = cy + dy[i];
+
+                if (outOfRange(nx, ny)) continue;
                 if (visited[nx][ny]) continue;
-                if (pivot == 'R' || pivot == 'G') {
-                    if (grid[nx][ny] == 'R' || grid[nx][ny] == 'G') {
-                        visited[nx][ny] = true;
-                        que.add(new int[]{nx, ny});
-                    }
-                } else {
-                    if (grid[nx][ny] == pivot) {
-                        visited[nx][ny] = true;
-                        que.add(new int[]{nx, ny});
-                    }
-                }
+                if (grid[nx][ny] != color) continue;
+
+                visited[nx][ny] = true;
+                que.add(new int[]{nx, ny});
             }
         }
-
     }
 
-    static boolean outOfRange(int x, int y) {
-        return 1 > x || n < x || 1 > y || n < y;
+    static void grclBfs(char color ,int x, int y) {
+        Queue<int[]> que = new ArrayDeque<>();
+
+        visited[x][y] = true;
+        que.add(new int[]{x, y});
+
+        while (!que.isEmpty()) {
+            int[] cur = que.poll();
+            int cx = cur[0];
+            int cy = cur[1];
+
+            for (int i = 0; i < dx.length; i++) {
+                int nx = cx + dx[i];
+                int ny = cy + dy[i];
+
+                if (outOfRange(nx, ny)) continue;
+                if (visited[nx][ny]) continue;
+                if (!rgcl(color , grid[nx][ny])) continue;
+
+                visited[nx][ny] = true;
+                que.add(new int[]{nx, ny});
+            }
+        }
+    }
+
+    static boolean rgcl(char color, char next) {
+        boolean rg = (color == 'R' || color == 'G') && (next == 'R' || next == 'G');
+        boolean b = color == 'B' && next == 'B';
+        return rg || b;
+    }
+
+    static boolean outOfRange(int nx,int ny) {
+        return nx < 0 || nx >= n || ny < 0 || ny >= n;
     }
 }
 
-
-/*
-    N 이 작음
-
-    적록색약은 빨간색과 초록색
-    R == G
-
-
- */
